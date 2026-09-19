@@ -5,16 +5,17 @@ import {
   ArrowRight, 
   Mail, 
   Lock, 
+  User, 
   Sparkles, 
   UserCheck, 
   AlertCircle,
   FileEdit,
-  KeyRound,
-  CheckCircle2
+  KeyRound
 } from 'lucide-react';
 
 export const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,6 +23,19 @@ export const Login = ({ onLoginSuccess }) => {
   // Email validation regex
   const isValidEmail = (emailStr) => {
     return /\S+@\S+\.\S+/.test(emailStr);
+  };
+
+  // Helper to extract a readable name from an email if not typed
+  const deriveNameFromEmail = (emailStr) => {
+    try {
+      const username = emailStr.split('@')[0];
+      const parts = username.replace(/[._-]+/g, ' ').trim().split(' ');
+      return parts
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+        .join(' ');
+    } catch {
+      return 'Student';
+    }
   };
 
   const handleLogin = (e) => {
@@ -37,42 +51,52 @@ export const Login = ({ onLoginSuccess }) => {
     }
 
     if (!isValidEmail(cleanEmail)) {
-      setError('Please enter a valid email address (e.g. anuj.dubey@college.edu).');
+      setError('Please enter a valid email address (e.g. yourname@college.edu).');
       return;
     }
 
-    // Known demo accounts or any valid student email
-    const isDemo = cleanEmail === 'anuj.dubey@college.edu' || 
-                   cleanEmail === 'anuj@gmail.com' || 
-                   cleanEmail === 'stu1024@college.edu';
-
-    if (isDemo && (cleanPass === 'password123' || cleanPass === 'demo123' || cleanPass === '123456')) {
-      if (onLoginSuccess) {
-        onLoginSuccess();
-      }
-      navigate('/');
-    } else if (cleanPass.length >= 4) {
-      // Allow flexible login for any student email with at least 4 chars password
-      if (onLoginSuccess) {
-        onLoginSuccess();
-      }
-      navigate('/');
-    } else {
-      setError("Password must be at least 4 characters. For demo, use 'password123'.");
+    if (cleanPass.length < 4) {
+      setError("Password must be at least 4 characters long.");
+      return;
     }
+
+    // Determine student name & student id
+    let finalName = fullName.trim();
+    let finalId = 'STU' + Math.floor(1000 + Math.random() * 9000);
+
+    if (cleanEmail === 'anuj.dubey@college.edu' || cleanEmail === 'anuj@gmail.com') {
+      finalName = finalName || 'Anuj Dubey';
+      finalId = 'STU1024';
+    } else {
+      finalName = finalName || deriveNameFromEmail(cleanEmail);
+    }
+
+    if (onLoginSuccess) {
+      onLoginSuccess({
+        student_name: finalName,
+        student_id: finalId,
+        email: cleanEmail
+      });
+    }
+
+    navigate('/');
   };
 
-  // Quick autofill demo credentials
+  // Quick autofill demo credentials for Anuj Dubey
   const fillDemoCredentials = () => {
+    setFullName('Anuj Dubey');
     setEmail('anuj.dubey@college.edu');
     setPassword('password123');
     setError('');
   };
 
   const handleInstantDemo = () => {
-    fillDemoCredentials();
     if (onLoginSuccess) {
-      onLoginSuccess();
+      onLoginSuccess({
+        student_name: 'Anuj Dubey',
+        student_id: 'STU1024',
+        email: 'anuj.dubey@college.edu'
+      });
     }
     navigate('/');
   };
@@ -100,7 +124,7 @@ export const Login = ({ onLoginSuccess }) => {
           <div className="space-y-1">
             <h2 className="text-base font-semibold text-white">Student Portal Sign In</h2>
             <p className="text-xs text-slate-400">
-              Sign in with your Email and Password to access your analytics.
+              Enter your name and credentials to load your personalized academic dashboard.
             </p>
           </div>
 
@@ -113,9 +137,32 @@ export const Login = ({ onLoginSuccess }) => {
 
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-4">
+            {/* Student Full Name */}
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">
-                Student Email Address
+                Your Full Name <span className="text-slate-500">(e.g. Rahul Sharma)</span>
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                  <User className="w-4 h-4" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={fullName}
+                  onChange={(e) => {
+                    setFullName(e.target.value);
+                    setError('');
+                  }}
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">
+                Student Email Address <span className="text-rose-400">*</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
@@ -123,7 +170,7 @@ export const Login = ({ onLoginSuccess }) => {
                 </div>
                 <input
                   type="email"
-                  placeholder="e.g. anuj.dubey@college.edu"
+                  placeholder="e.g. student@college.edu"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -134,9 +181,10 @@ export const Login = ({ onLoginSuccess }) => {
               </div>
             </div>
 
+            {/* Password */}
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">
-                Password
+                Password <span className="text-rose-400">*</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
@@ -144,7 +192,7 @@ export const Login = ({ onLoginSuccess }) => {
                 </div>
                 <input
                   type="password"
-                  placeholder="e.g. password123"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -159,7 +207,7 @@ export const Login = ({ onLoginSuccess }) => {
               type="submit"
               className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-teal-600 hover:bg-teal-500 rounded-lg text-xs font-semibold text-white shadow-sm transition-colors"
             >
-              <span>Sign In with Email</span>
+              <span>Sign In to My Dashboard</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -168,12 +216,12 @@ export const Login = ({ onLoginSuccess }) => {
           <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-700/60 flex items-center justify-between gap-2 text-xs">
             <div className="text-[11px] text-slate-400">
               <span className="text-slate-300 font-semibold block">Demo Account:</span>
-              <code className="text-teal-300 text-[10px]">anuj.dubey@college.edu</code>
+              <code className="text-teal-300 text-[10px]">Anuj Dubey (anuj.dubey@college.edu)</code>
             </div>
             <button
               type="button"
               onClick={fillDemoCredentials}
-              className="px-2.5 py-1 bg-teal-900/40 hover:bg-teal-900/70 text-teal-300 border border-teal-600/40 rounded text-[11px] font-medium transition-colors"
+              className="px-2.5 py-1 bg-teal-900/40 hover:bg-teal-900/70 text-teal-300 border border-teal-600/40 rounded text-[11px] font-medium transition-colors shrink-0"
             >
               Auto-Fill
             </button>
@@ -182,7 +230,7 @@ export const Login = ({ onLoginSuccess }) => {
           {/* Alternative Quick Entry Options */}
           <div className="pt-2 border-t border-slate-700/60 space-y-2.5">
             <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider text-center">
-              Quick Actions
+              Quick Options
             </div>
 
             {/* Option 1: Enter Fresh Student Data */}

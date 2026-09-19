@@ -140,10 +140,27 @@ export function App() {
     }
   };
 
+  // Handle dynamic login so the logged-in student's identity is active everywhere
+  const handleLoginSuccess = (userData) => {
+    if (userData?.student_name) {
+      const updated = {
+        ...student,
+        student_name: userData.student_name,
+        student_id: userData.student_id || student.student_id,
+        email: userData.email || student.email
+      };
+      setStudent(updated);
+      apiService.predictPerformance(updated).then(res => {
+        if (res?.prediction) setPrediction(res.prediction);
+        if (res?.subject_analysis) setSubjectAnalysis(res.subject_analysis);
+      });
+    }
+  };
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
         <Route
           path="/*"
           element={
