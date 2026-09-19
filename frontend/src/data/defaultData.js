@@ -1,5 +1,5 @@
 export const DEFAULT_STUDENT_DATA = {
-  student_name: "Anuj Sharma",
+  student_name: "Anuj Dubey",
   student_id: "STU1024",
   attendance: 84.5,
   previous_percentage: 78.0,

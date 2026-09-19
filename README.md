@@ -54,7 +54,7 @@ Generative AI Synthesis (Google Gemini API / Pedagogical Fallback Engine)
   - Interactive day-by-day timetable cards (Day 1 through Day 7).
   - Specific topics, actionable daily tasks with interactive checklist, hours allocated based on student study capacity, priority badges, and active learning strategies.
 - **Interactive Student Simulation Modal**:
-  - Modify academic features or load presets (*Anuj Sharma - Baseline*, *Simulate "At Risk" Student*, *Simulate "High Achiever"*) to observe immediate ML re-classification in real time.
+  - Modify academic features or load presets (*Anuj Dubey - Baseline*, *Simulate "At Risk" Student*, *Simulate "High Achiever"*) to observe immediate ML re-classification in real time.
 - **Formal Academic Performance Report**:
   - Printable official student transcript with institutional styling, signature blocks, and `@media print` layout.
 - **Intelligent Demo / Offline Fallback Engine**:
@@ -281,7 +281,7 @@ Returns model accuracy, precision, recall, F1, confusion matrix, and feature imp
 curl -X POST http://localhost:5001/api/predict \
   -H "Content-Type: application/json" \
   -d '{
-    "student_name": "Anuj Sharma",
+    "student_name": "Anuj Dubey",
     "student_id": "STU1024",
     "attendance": 84.5,
     "previous_percentage": 78.0,

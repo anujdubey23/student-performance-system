@@ -80,7 +80,7 @@ export const Reports = ({ student, prediction, subjectAnalysis }) => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs">
           <div>
             <span className="text-slate-500 block text-[11px] font-medium">Student Full Name</span>
-            <span className="text-sm font-bold text-slate-900">{student?.student_name || 'Anuj Sharma'}</span>
+            <span className="text-sm font-bold text-slate-900">{student?.student_name || 'Anuj Dubey'}</span>
           </div>
           <div>
             <span className="text-slate-500 block text-[11px] font-medium">Student Registration ID</span>

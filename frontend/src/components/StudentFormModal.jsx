@@ -6,7 +6,7 @@ export const StudentFormModal = ({ isOpen, onClose, currentData, onSubmit }) => 
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
-    student_name: currentData?.student_name || 'Anuj Sharma',
+    student_name: currentData?.student_name || 'Anuj Dubey',
     student_id: currentData?.student_id || 'STU1024',
     attendance: currentData?.attendance || 84.5,
     previous_percentage: currentData?.previous_percentage || 78.0,
@@ -179,7 +179,7 @@ export const StudentFormModal = ({ isOpen, onClose, currentData, onSubmit }) => 
               onClick={() => loadPreset('default')}
               className="px-2.5 py-1 bg-white border border-teal-200 hover:border-teal-300 text-teal-800 rounded font-medium shadow-xs"
             >
-              Anuj Sharma (Baseline)
+              Anuj Dubey (Baseline)
             </button>
             <button
               type="button"

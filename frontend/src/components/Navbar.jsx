@@ -50,11 +50,11 @@ export const Navbar = ({
         {/* Student Profile Badge */}
         <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
           <div className="w-9 h-9 rounded-full bg-slate-800 text-white flex items-center justify-center font-medium text-xs">
-            {student?.student_name ? student.student_name.split(' ').map(n => n[0]).join('') : 'AS'}
+            {student?.student_name ? student.student_name.split(' ').map(n => n[0]).join('') : 'AD'}
           </div>
           <div className="hidden sm:block text-left">
             <div className="text-xs font-semibold text-slate-900 leading-tight">
-              {student?.student_name || 'Anuj Sharma'}
+              {student?.student_name || 'Anuj Dubey'}
             </div>
             <div className="text-[11px] text-slate-500 font-mono">
               {student?.student_id || 'STU1024'}

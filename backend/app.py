@@ -20,7 +20,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Realistic Default Sample Student Profile
 DEFAULT_STUDENT = {
-    "student_name": "Anuj Sharma",
+    "student_name": "Anuj Dubey",
     "student_id": "STU1024",
     "attendance": 84.5,
     "previous_percentage": 78.0,

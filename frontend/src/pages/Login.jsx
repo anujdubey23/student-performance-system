@@ -91,7 +91,7 @@ export const Login = ({ onLoginSuccess }) => {
               className="w-full py-2.5 px-4 bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 rounded-lg text-xs font-medium text-slate-200 flex items-center justify-center gap-2 transition-colors"
             >
               <UserCheck className="w-4 h-4 text-teal-400" />
-              <span>Instant Demo Access (Anuj Sharma - STU1024)</span>
+              <span>Instant Demo Access (Anuj Dubey - STU1024)</span>
             </button>
           </div>
 

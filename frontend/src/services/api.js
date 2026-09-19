@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DEFAULT_STUDENT_DATA, DEFAULT_PREDICTION, DEFAULT_SUBJECT_ANALYSIS } from '../data/defaultData';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
