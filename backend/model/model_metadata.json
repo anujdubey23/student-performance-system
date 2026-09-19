@@ -1,0 +1,102 @@
+{
+  "model_name": "Random Forest Classifier",
+  "n_estimators": 100,
+  "features": [
+    "attendance",
+    "previous_percentage",
+    "assignment_score",
+    "quiz_score",
+    "internal_marks",
+    "study_hours",
+    "completed_assignments",
+    "completed_quizzes"
+  ],
+  "target_classes": [
+    "At Risk",
+    "Average Performance",
+    "High Performance"
+  ],
+  "metrics": {
+    "accuracy": 0.83,
+    "precision": 0.8299,
+    "recall": 0.83,
+    "f1_score": 0.8289,
+    "confusion_matrix": {
+      "labels": [
+        "High Performance",
+        "Average Performance",
+        "At Risk"
+      ],
+      "matrix": [
+        [
+          26,
+          6,
+          0
+        ],
+        [
+          5,
+          48,
+          2
+        ],
+        [
+          0,
+          4,
+          9
+        ]
+      ]
+    },
+    "classification_report": {
+      "At Risk": {
+        "precision": 0.8181818181818182,
+        "recall": 0.6923076923076923,
+        "f1-score": 0.75,
+        "support": 13.0
+      },
+      "Average Performance": {
+        "precision": 0.8275862068965517,
+        "recall": 0.8727272727272727,
+        "f1-score": 0.8495575221238938,
+        "support": 55.0
+      },
+      "High Performance": {
+        "precision": 0.8387096774193549,
+        "recall": 0.8125,
+        "f1-score": 0.8253968253968254,
+        "support": 32.0
+      },
+      "accuracy": 0.83,
+      "macro avg": {
+        "precision": 0.8281592341659083,
+        "recall": 0.792511655011655,
+        "f1-score": 0.8083181158402398,
+        "support": 100.0
+      },
+      "weighted avg": {
+        "precision": 0.8299231469309334,
+        "recall": 0.83,
+        "f1-score": 0.8288836212951257,
+        "support": 100.0
+      }
+    }
+  },
+  "feature_importances": {
+    "internal_marks": 0.28105331970801967,
+    "assignment_score": 0.233371483149401,
+    "previous_percentage": 0.15078951700953808,
+    "quiz_score": 0.14519542249121645,
+    "study_hours": 0.08031796615945642,
+    "attendance": 0.06595299667383978,
+    "completed_assignments": 0.025677903896015476,
+    "completed_quizzes": 0.017641390912513197
+  },
+  "dataset_summary": {
+    "total_records": 500,
+    "train_records": 400,
+    "test_records": 100,
+    "class_distribution": {
+      "Average Performance": 274,
+      "High Performance": 160,
+      "At Risk": 66
+    }
+  }
+}
