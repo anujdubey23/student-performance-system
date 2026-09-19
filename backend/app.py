@@ -14,7 +14,7 @@ from services.gemini_service import gemini_service
 load_dotenv()
 
 FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "dist"))
-app = Flask(__name__, static_folder=FRONTEND_DIST, static_url_path="")
+app = Flask(__name__, static_folder=FRONTEND_DIST, static_url_path="/")
 # Enable CORS for frontend development and production ports
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
@@ -165,13 +165,14 @@ def serve_frontend(path):
     """Serves the compiled React frontend for SPA routing."""
     if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
         return send_from_directory(app.static_folder, path)
-    if os.path.exists(os.path.join(app.static_folder, "index.html")):
-        return send_from_directory(app.static_folder, "index.html")
-    return jsonify({
-        "service": "AI-Driven Student Performance Backend",
-        "status": "online",
-        "api_docs": "/api/health"
-    })
+    return send_from_directory(app.static_folder, "index.html")
+
+@app.errorhandler(404)
+def not_found(e):
+    """Fallback handler for SPA client-side routing."""
+    if request.path.startswith("/api/"):
+        return jsonify({"error": "API endpoint not found"}), 404
+    return send_from_directory(app.static_folder, "index.html")
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5001))
