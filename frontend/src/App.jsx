@@ -9,6 +9,7 @@ import { Subjects } from './pages/Subjects';
 import { AIStudyPlan } from './pages/AIStudyPlan';
 import { Reports } from './pages/Reports';
 import { WhatIfSimulator } from './pages/WhatIfSimulator';
+import { DataEntry } from './pages/DataEntry';
 import { Login } from './pages/Login';
 import { apiService } from './services/api';
 import { 
@@ -27,6 +28,11 @@ function Layout({ children, student, prediction, subjectAnalysis, healthStatus, 
         return {
           title: 'Student Academic Dashboard',
           subtitle: 'Real-time performance metrics and predictive indicators'
+        };
+      case '/data-entry':
+        return {
+          title: 'Student Academic Data Entry',
+          subtitle: 'Input student details, coursework marks, and continuous assessment metrics'
         };
       case '/performance':
         return {
@@ -157,6 +163,15 @@ export function App() {
                       prediction={prediction}
                       subjectAnalysis={subjectAnalysis}
                       onOpenForm={() => setIsFormOpen(true)}
+                    />
+                  }
+                />
+                <Route
+                  path="/data-entry"
+                  element={
+                    <DataEntry
+                      student={student}
+                      onUpdateStudent={handleStudentUpdate}
                     />
                   }
                 />

@@ -9,12 +9,14 @@ import {
   GraduationCap,
   Cpu,
   Sparkles,
-  Sliders
+  Sliders,
+  ClipboardEdit
 } from 'lucide-react';
 
 export const Sidebar = () => {
   const navItems = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/data-entry', label: 'Student Data Form', icon: ClipboardEdit },
     { to: '/performance', label: 'Performance', icon: Activity },
     { to: '/simulator', label: 'What-If Simulator', icon: Sliders },
     { to: '/subjects', label: 'Subjects', icon: BookOpen },

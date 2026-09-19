@@ -6,16 +6,44 @@ import {
   ShieldCheck, 
   Cpu, 
   Sparkles, 
-  UserCheck 
+  UserCheck, 
+  AlertCircle,
+  FileEdit,
+  KeyRound
 } from 'lucide-react';
 
 export const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
-  const [studentId, setStudentId] = useState('STU1024');
-  const [password, setPassword] = useState('demo123');
+  const [studentId, setStudentId] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = (e) => {
     e?.preventDefault();
+    setError('');
+
+    const cleanId = studentId.trim().toUpperCase();
+    const cleanPass = password.trim();
+
+    if (!cleanId || !cleanPass) {
+      setError('Please enter both Student ID and Password.');
+      return;
+    }
+
+    // Authenticate demo accounts
+    if ((cleanId === 'STU1024' || cleanId === 'ANUJ') && (cleanPass === 'password123' || cleanPass === 'demo123')) {
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+      navigate('/');
+    } else {
+      setError("Invalid Student ID or Password. Use registered Demo Account (STU1024 / password123) or click 'Enter Fresh Student Data' below.");
+    }
+  };
+
+  const handleInstantDemo = () => {
+    setStudentId('STU1024');
+    setPassword('password123');
     if (onLoginSuccess) {
       onLoginSuccess();
     }
@@ -38,17 +66,25 @@ export const Login = ({ onLoginSuccess }) => {
         </p>
       </div>
 
-      {/* Main Login Card */}
+      {/* Main Card */}
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-slate-800/90 py-8 px-6 shadow-xl border border-slate-700/80 sm:rounded-2xl sm:px-10 space-y-6">
           
           <div className="space-y-1">
             <h2 className="text-base font-semibold text-white">Student Portal Access</h2>
             <p className="text-xs text-slate-400">
-              Sign in to view predictive analytics, model explainability, and AI study schedules.
+              Sign in with your student credentials or enter fresh academic data.
             </p>
           </div>
 
+          {error && (
+            <div className="p-3 bg-rose-500/15 border border-rose-500/30 rounded-lg text-xs text-rose-300 flex items-start gap-2 animate-in fade-in">
+              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">
@@ -56,8 +92,12 @@ export const Login = ({ onLoginSuccess }) => {
               </label>
               <input
                 type="text"
+                placeholder="e.g. STU1024"
                 value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
+                onChange={(e) => {
+                  setStudentId(e.target.value);
+                  setError('');
+                }}
                 className="w-full px-3.5 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-mono"
               />
             </div>
@@ -68,8 +108,12 @@ export const Login = ({ onLoginSuccess }) => {
               </label>
               <input
                 type="password"
+                placeholder="e.g. password123"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setError('');
+                }}
                 className="w-full px-3.5 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
@@ -83,34 +127,40 @@ export const Login = ({ onLoginSuccess }) => {
             </button>
           </form>
 
-          {/* Quick Demo Instant Access */}
-          <div className="pt-4 border-t border-slate-700/60">
+          {/* Prominent Fresh Data Entry Option */}
+          <div className="pt-4 border-t border-slate-700/60 space-y-3">
+            <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider text-center">
+              Or Choose An Option Below
+            </div>
+
+            {/* Option 1: Enter Fresh Student Data */}
             <button
               type="button"
-              onClick={handleLogin}
-              className="w-full py-2.5 px-4 bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 rounded-lg text-xs font-medium text-slate-200 flex items-center justify-center gap-2 transition-colors"
+              onClick={() => navigate('/data-entry')}
+              className="w-full py-2.5 px-4 bg-teal-900/40 hover:bg-teal-900/60 border border-teal-500/40 rounded-lg text-xs font-bold text-teal-300 flex items-center justify-center gap-2 transition-colors shadow-xs"
             >
-              <UserCheck className="w-4 h-4 text-teal-400" />
-              <span>Instant Demo Access (Anuj Dubey - STU1024)</span>
+              <FileEdit className="w-4 h-4 text-teal-400" />
+              <span>Enter Fresh Student Data & Subject Marks</span>
+            </button>
+
+            {/* Option 2: Instant Demo */}
+            <button
+              type="button"
+              onClick={handleInstantDemo}
+              className="w-full py-2 px-4 bg-slate-700/60 hover:bg-slate-700 border border-slate-600/50 rounded-lg text-xs font-medium text-slate-300 flex items-center justify-center gap-2 transition-colors"
+            >
+              <UserCheck className="w-3.5 h-3.5 text-slate-400" />
+              <span>Explore Demo Profile (Anuj Dubey - STU1024)</span>
             </button>
           </div>
 
-          {/* Architecture badges */}
-          <div className="pt-2 text-[11px] text-slate-400 space-y-1.5 text-center">
-            <div className="flex items-center justify-center gap-3 text-slate-300">
-              <span className="flex items-center gap-1">
-                <Cpu className="w-3.5 h-3.5 text-teal-400" />
-                Random Forest ML
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                Google Gemini GenAI
-              </span>
+          {/* Credentials Helper Box */}
+          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-700/50 text-[11px] text-slate-400 space-y-1">
+            <div className="text-slate-300 font-semibold flex items-center gap-1.5">
+              <KeyRound className="w-3.5 h-3.5 text-teal-400" />
+              <span>Registered Demo Credentials:</span>
             </div>
-            <p className="text-[10px] text-slate-500">
-              Generative AI Course Project & Technical Interview Showcase
-            </p>
+            <div>Student ID: <code className="text-teal-300 font-mono">STU1024</code> | Password: <code className="text-teal-300 font-mono">password123</code></div>
           </div>
 
         </div>
