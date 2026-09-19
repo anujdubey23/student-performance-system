@@ -8,6 +8,7 @@ import { Performance } from './pages/Performance';
 import { Subjects } from './pages/Subjects';
 import { AIStudyPlan } from './pages/AIStudyPlan';
 import { Reports } from './pages/Reports';
+import { WhatIfSimulator } from './pages/WhatIfSimulator';
 import { Login } from './pages/Login';
 import { apiService } from './services/api';
 import { 
@@ -31,6 +32,11 @@ function Layout({ children, student, prediction, subjectAnalysis, healthStatus, 
         return {
           title: 'Performance Analysis & ML Explainability',
           subtitle: 'Random Forest model confidence, risk factors, and evaluation metrics'
+        };
+      case '/simulator':
+        return {
+          title: '"What-If" Habit Simulator',
+          subtitle: 'Real-time counterfactual analysis and prescriptive performance roadmap'
         };
       case '/subjects':
         return {
@@ -161,6 +167,16 @@ export function App() {
                       student={student}
                       prediction={prediction}
                       subjectAnalysis={subjectAnalysis}
+                    />
+                  }
+                />
+                <Route
+                  path="/simulator"
+                  element={
+                    <WhatIfSimulator
+                      student={student}
+                      currentPrediction={prediction}
+                      onApplySimulation={handleStudentUpdate}
                     />
                   }
                 />

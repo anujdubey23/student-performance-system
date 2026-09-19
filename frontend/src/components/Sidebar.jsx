@@ -8,13 +8,15 @@ import {
   FileSpreadsheet, 
   GraduationCap,
   Cpu,
-  Sparkles
+  Sparkles,
+  Sliders
 } from 'lucide-react';
 
 export const Sidebar = () => {
   const navItems = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/performance', label: 'Performance', icon: Activity },
+    { to: '/simulator', label: 'What-If Simulator', icon: Sliders },
     { to: '/subjects', label: 'Subjects', icon: BookOpen },
     { to: '/study-plan', label: 'AI Study Plan', icon: CalendarDays },
     { to: '/reports', label: 'Reports', icon: FileSpreadsheet },
